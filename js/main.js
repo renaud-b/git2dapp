@@ -60,7 +60,7 @@ function updateFile(graphID, fileLink, fileName, existing, existingFiles) {
             Blackhole.getGraph(existing.id).then((g) => {
                 const md5ExistingGraph = MD5(toBase64UTF8(JSON.stringify(g.object)));
                 const md5CurrentGraph = MD5(b64Graph);
-                if (md5CurrentGraph != md5ExistingGraph) {
+                if (md5CurrentGraph !== md5ExistingGraph) {
                     console.log("graph is different: ", fileName);
                     const payload = ((("urn:pi:graph:snap:" + existing.id) + ":data:") + b64Graph);
                     writeTx(payload).then(() => {
