@@ -106,6 +106,7 @@ function writeTx(payload) {
 function extractGraph(graphID, fileLink, fileName, existingFiles = []) {
     return new Promise((resolve, reject) => {
         fetch(fileLink).then((res) => res.text()).then((data) => {
+            console.log("data : ", data)
             if (fileName.endsWith(".html")) {
                 Wormhole.HTMLToGraph(data).then((graph) => {
                     resolve(upgradeGraphConnections(graphID, graph, existingFiles));
