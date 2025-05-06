@@ -58,8 +58,11 @@ function updateFile(graphID, fileLink, fileName, existing, existingFiles) {
     return new Promise((resolve, reject) => {
         extractGraph(graphID, fileLink, fileName, existingFiles).then((b64Graph) => {
             Blackhole.getGraph(existing.id).then((g) => {
+                console.log("g2: ", g)
                 const md5ExistingGraph = MD5(toBase64UTF8(JSON.stringify(g.object)));
                 const md5CurrentGraph = MD5(b64Graph);
+                console.log("existing graph: ", md5ExistingGraph);
+                console.log("current graph: ", md5CurrentGraph);
                 if (md5CurrentGraph !== md5ExistingGraph) {
                     console.log("graph is different: ", fileName);
                     const payload = ((("urn:pi:graph:snap:" + existing.id) + ":data:") + b64Graph);
@@ -106,9 +109,10 @@ function writeTx(payload) {
 function extractGraph(graphID, fileLink, fileName, existingFiles = []) {
     return new Promise((resolve, reject) => {
         fetch(fileLink).then((res) => res.text()).then((data) => {
-            console.log("data : ", data)
+            console.log("processing file : ", fileName)
             if (fileName.endsWith(".html")) {
                 Wormhole.HTMLToGraph(data).then((graph) => {
+                    console.log("g: ", graph)
                     resolve(upgradeGraphConnections(graphID, graph, existingFiles));
                 }).catch(reject);
             } else if (fileName.endsWith(".js")) {
