@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta content="architect" name="guilds"/>
+    <title>git2dapp - Importer et déployer votre code</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/ab44efbce6.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center" height="500" width="710">
+<div class="w-full max-w-3xl p-6 bg-white shadow-lg rounded-lg" id="app"><!-- Screen 1: Welcome -->
+    <div class="screen" id="screen-welcome"><h1 class="text-2xl font-bold mb-4">Bienvenue sur git2dapp</h1>
+        <p class="mb-6">
+            Importez un projet depuis GitHub ou un fichier ZIP local.
+        </p>
+        <div class="flex flex-col gap-4"><input placeholder="URL GitHub..." type="text"
+                                                class="border p-2 rounded w-full" id="github-url"/>
+            <div class="flex items-center gap-4"><!-- <input
+              id="zip-file"
+              type="file"
+              accept=".zip"
+              class="w-full"
+            /> -->
+                <button onclick="fetchCode()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                    Continuer
+                </button>
+            </div>
+        </div>
+    </div><!-- Screen 2: Preview -->
+    <div id="screen-preview" class="screen hidden"><h2 class="text-xl font-semibold mb-4">Aperçu du projet</h2>
+        <div class="bg-gray-100 p-4 rounded border h-64 overflow-auto" id="preview-container">
+            <!-- Dynamically filled by JS --></div>
+        <div class="mt-6 flex justify-end">
+            <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded" onclick="deployProject()">
+                Déployer vers Utopixia
+            </button>
+        </div>
+    </div><!-- Screen 3: Deploy -->
+    <div class="screen hidden" id="screen-deploy"><h2 class="text-xl font-semibold mb-4">Déploiement</h2>
+        <p class="mb-4">Nom du projet :</p><input type="text" class="border p-2 rounded w-full mb-4"
+                                                  placeholder="Nom du projet..." id="project-name"/>
+        <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded" onclick="publish()">
+            Publier sur Utopixia
+        </button>
+    </div><!-- Screen 4: Deploy pending -->
+    <div class="screen hidden" id="screen-deploy-pending"><h2 class="text-2xl font-bold mb-4 text-gray-800">
+        Déploiement en cours
+    </h2>
+        <p class="text-gray-700 mb-4"><span class="font-semibold">Nom du projet :</span><span
+                class="italic text-blue-600" id="deployed-project-name"></span></p>
+        <div class="bg-gray-50 p-4 rounded border h-64 overflow-auto"><h3
+                class="text-lg font-medium mb-3 text-gray-700">
+            Fichiers importés
+        </h3>
+            <div class="space-y-3" id="deployed-files-container"></div>
+            <div id="import-done-message" class="hidden text-green-600 font-semibold mt-4">
+                ✅ Importation terminée avec succès !
+            </div>
+        </div>
+        <div class="mt-6 text-right">
+            <button onclick="publish()" class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded"
+                    id="continue-button">
+                Continuer
+            </button>
+        </div>
+    </div>
+    <script src="/parser/graph/javascript/e16712e4-4141-4dd3-ac0f-3e7409890737"></script><!-- gravity/graph -->
+    <script src="/parser/graph/javascript/65bb8f2d-1bc8-419f-8d34-aac5242e4d0c"></script><!-- gravity/singularity -->
+    <script src="/parser/graph/javascript/e0911760-0959-4f6e-8214-5a140ff334cf"></script><!-- gravity/blackhole -->
+    <script src="/parser/graph/javascript/14b3fc37-e1dd-4b21-be23-a461efa2d910"></script><!-- gravity/wormhole -->
+    <script src="/parser/graph/javascript/0b6a9301-cb03-4887-bdca-1170d13f21e5"></script><!-- gravity/event_manager -->
+    <script src="/parser/graph/javascript/b04ed767-87b8-4783-a18b-47dea5d76744"></script><!-- ProjectManager.js -->
+    <script src="/parser/graph/javascript/f3a989b0-4d85-4fc4-bbf2-52a36aa6dfde"></script><!-- UIManager.js -->
+    <script src="/parser/graph/javascript/98625e57-2cd6-4aa7-9708-a273b9918f85"></script><!-- main.js --></div>
+</body>
+</html>
