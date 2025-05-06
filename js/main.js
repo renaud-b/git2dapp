@@ -112,7 +112,7 @@ function extractGraph(graphID, fileLink, fileName, existingFiles = []) {
             console.log("processing file : ", fileName)
             if (fileName.endsWith(".html")) {
                 Wormhole.HTMLToGraph(data).then((graph) => {
-                    console.log("g: ", graph)
+                    console.log("g: ", JSON.parse(atob(graph)))
                     resolve(upgradeGraphConnections(graphID, graph, existingFiles));
                 }).catch(reject);
             } else if (fileName.endsWith(".js")) {
