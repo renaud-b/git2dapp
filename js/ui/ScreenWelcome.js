@@ -1,12 +1,13 @@
-
 var ScreenWelcome = {
     init: function () {
-        var continueBtn = document.querySelector("#screen-welcome button");
+        console.log("init ScreenWelcome")
+        var continueBtn = document.querySelector("#screen-welcome-btn");
         if (continueBtn) {
             continueBtn.addEventListener("click", function () {
                 var input = document.getElementById("github-url").value;
+                console.log("continue button")
                 GitHubFetcher.fetch(input);
             });
         }
-    }
+    },
 };
