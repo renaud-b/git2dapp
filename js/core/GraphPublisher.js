@@ -68,11 +68,13 @@ var GraphPublisher = {
                     }
                 });
             } else {
-                GraphPublisher._updateFile(file.graphID, file.link, file.file.path, existing, projectFiles, userAddress).then(function (state) {
+                var usedGraphID = existing ? existing.id : file.graphID;
+
+                GraphPublisher._updateFile(usedGraphID, file.link, file.file.path, existing, projectFiles, userAddress).then(function (state) {
                     icon.className = (state === "AlreadyExists") ? "fas fa-equals text-gray-400" : "fas fa-check-circle text-green-600";
                     completed++;
                     if (completed === total) {
-                        GraphPublisher._finalize(projectFiles, userAddress, doneMessage, continueButton);
+                        GraphPublisher._finalize(ProjectManager.files, userAddress, doneMessage, continueButton);
                     }
                 });
             }
@@ -125,8 +127,8 @@ var GraphPublisher = {
     },
     _finalize: function (filesSource, userAddress, doneMessage, continueButton) {
         var projectFiles = filesSource.map(function (projectFile) {
-            var name = projectFile.file ? projectFile.file.path : projectFile.name;
-            var fileID = projectFile.graphID || projectFile.id;
+            var name = projectFile.file.path;
+            var fileID = projectFile.graphID;
             var type = null;
             if (name.endsWith(".html")) type = "text/html";
             else if (name.endsWith(".css")) type = "text/css";
