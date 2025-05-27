@@ -1,88 +1,74 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <meta content="architect" name="guilds" />
-    <title>git2dapp – Importer &amp; Déployer</title>
-    <link
-            rel="icon"
-            href="/ipfs/QmdjhgYkzTFRiGYwFnaSfK2GN1SSJwHTbquPea28bhQxZg"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="guilds" content="architect" />
+    <title>git2dapp - Import and Deploy Your Code</title>
+    <link rel="icon" href="/ipfs/QmdjhgYkzTFRiGYwFnaSfK2GN1SSJwHTbquPea28bhQxZg" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script
-            crossorigin="anonymous"
-            src="https://kit.fontawesome.com/ab44efbce6.js"
-    ></script>
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/ab44efbce6.js"></script>
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center" width="760" height="530">
 <div class="w-full max-w-3xl p-6 bg-white shadow-lg rounded-lg" id="app">
     <!-- Screen 1: Welcome -->
     <div class="screen" id="screen-welcome">
-        <h1 class="text-2xl font-bold mb-4">Bienvenue sur git2dapp</h1>
-        <p class="mb-6">Importez un projet depuis GitHub.</p>
+        <h1 class="text-2xl font-bold mb-4">Welcome to git2dapp</h1>
+        <p class="mb-6">Import a project from GitHub.</p>
         <div class="flex flex-col gap-4">
             <input
                     class="border p-2 rounded w-full"
                     type="text"
                     id="github-url"
-                    placeholder="URL GitHub..."
-            /><button
-                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" id="screen-welcome-btn"
-        >
-            Continuer
-        </button>
-        </div>
-    </div>
-    <!-- Screen 2: Preview -->
-    <div id="screen-preview" class="screen hidden">
-        <h2 class="text-xl font-semibold mb-4">Aperçu du projet</h2>
-        <div
-                class="bg-gray-100 p-4 rounded border h-64 overflow-auto"
-                id="preview-container"
-        ></div>
-        <div class="mt-6 flex justify-end">
+                    placeholder="GitHub URL..."
+            />
             <button
-                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+                    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                    id="screen-welcome-btn"
             >
-                Déployer vers Utopixia
+                Continue
             </button>
         </div>
     </div>
+
+    <!-- Screen 2: Preview -->
+    <div id="screen-preview" class="screen hidden">
+        <h2 class="text-xl font-semibold mb-4">Project Preview</h2>
+        <div class="bg-gray-100 p-4 rounded border h-64 overflow-auto" id="preview-container"></div>
+        <div class="mt-6 flex justify-end">
+            <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">
+                Deploy to Utopixia
+            </button>
+        </div>
+    </div>
+
     <!-- Screen 3: Deploy -->
     <div class="screen hidden" id="screen-deploy">
-        <h2 class="text-xl font-semibold mb-4">Déploiement</h2>
-        <label class="mb-2 block" for="project-name">Nom du projet :</label
-        ><input
-            type="text"
-            class="border p-2 rounded w-full mb-4"
-            id="project-name"
-            placeholder="Nom du projet..."
-    /><button
-            class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded"
-    >
-        Publier sur Utopixia
-    </button>
+        <h2 class="text-xl font-semibold mb-4">Deployment</h2>
+        <label class="mb-2 block" for="project-name">Project Name:</label>
+        <input
+                type="text"
+                class="border p-2 rounded w-full mb-4"
+                id="project-name"
+                placeholder="Project name..."
+        />
+        <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded">
+            Publish to Utopixia
+        </button>
     </div>
+
     <!-- Screen 4: Deploy pending -->
     <div class="screen hidden" id="screen-deploy-pending">
-        <h2 class="text-2xl font-bold mb-4 text-gray-800">
-            Déploiement en cours
-        </h2>
+        <h2 class="text-2xl font-bold mb-4 text-gray-800">Deployment in Progress</h2>
         <p class="text-gray-700 mb-4">
-          <span class="font-semibold">Nom du projet :</span
-          ><span class="italic text-blue-600" id="deployed-project-name"></span>
+            <span class="font-semibold">Project Name:</span>
+            <span class="italic text-blue-600" id="deployed-project-name"></span>
         </p>
         <div class="bg-gray-50 p-4 rounded border h-64 overflow-auto">
-            <h3 class="text-lg font-medium mb-3 text-gray-700">
-                Fichiers importés
-            </h3>
+            <h3 class="text-lg font-medium mb-3 text-gray-700">Imported Files</h3>
             <div class="space-y-3" id="deployed-files-container"></div>
-            <div
-                    class="hidden text-green-600 font-semibold mt-4"
-                    id="import-done-message"
-            >
-                Importation terminée avec succès !
+            <div class="hidden text-green-600 font-semibold mt-4" id="import-done-message">
+                Import completed successfully!
             </div>
         </div>
         <div class="mt-6 text-right">
@@ -90,23 +76,23 @@
                     id="continue-button"
                     class="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded hidden"
             >
-                Continuer
+                Continue
             </button>
         </div>
     </div>
-    <!-- Screen 5: Success (optionnel) -->
+
+    <!-- Screen 5: Success -->
     <div class="screen hidden" id="screen-success">
-        <h2 class="text-xl font-semibold mb-4">Déploiement terminé</h2>
+        <h2 class="text-xl font-semibold mb-4">Deployment Complete</h2>
         <p class="mb-6 text-green-600">
-            Votre projet a été publié avec succès sur Utopixia.
+            Your project has been successfully published to Utopixia.
         </p>
-        <button
-                class="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded"
-        >
-            Revenir à l&#39;accueil
+        <button class="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded">
+            Back to Home
         </button>
     </div>
 </div>
+
 <!-- Core scripts -->
 <script src="/parser/graph/javascript/e16712e4-4141-4dd3-ac0f-3e7409890737"></script>
 <!-- gravity/graph -->
