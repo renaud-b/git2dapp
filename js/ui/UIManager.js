@@ -15,10 +15,15 @@ const UIManager = {
             });
             resolve();
         });
-    }, 'nextScreen': function (id) {
+    },
+    'nextScreen': function (id) {
         document.querySelectorAll(".screen").forEach((screen) => {
             screen.classList.add("hidden");
         });
         document.getElementById(id).classList.remove("hidden");
+    },
+    deployProject = function () {
+        document.getElementById("project-name").value = ProjectManager.projectName;
+        UIManager.nextScreen("screen-deploy");
     }
 };
