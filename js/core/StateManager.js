@@ -29,14 +29,6 @@ var StateManager = {
         this.userAddress = address;
     },
 
-    getUserAddress: function () {
-        return this.userAddress;
-    },
-
-    saveRepoURL: function (url) {
-        localStorage.setItem("repoURL", url);
-    },
-
     reset: function () {
         ProjectManager.files = [];
         ProjectManager.projectName = undefined;
