@@ -58,6 +58,6 @@ var FileProcessor = {
                 scriptNodes.push(node);
             }
         });
-        return toBase64UTF8(JSON.stringify(root.object));
+        return btoa(convertAccentsToHtmlCodes(JSON.stringify(root.object)));
     },
 };
