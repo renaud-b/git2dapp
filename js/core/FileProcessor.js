@@ -6,11 +6,9 @@ var FileProcessor = {
                     return res.text();
                 })
                 .then(function (data) {
-                    console.log("processing file : ", fileName);
                     if (fileName.endsWith(".html")) {
                         Wormhole.HTMLToGraph(data)
                             .then(function (graph) {
-                                console.log("HTML graph generated");
                                 var upgraded = FileProcessor.upgradeGraphConnections(
                                     graphID,
                                     graph,

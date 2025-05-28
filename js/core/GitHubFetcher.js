@@ -14,7 +14,6 @@ var GitHubFetcher = {
                             '<p class="text-red-500">Erreur ou branche introuvable.</p>';
                         return;
                     }
-                    console.log("start to show file list");
                     UIManager.showFileList(repo, owner, data.tree).then(resolve);
                 })
                 .catch(function (e) {

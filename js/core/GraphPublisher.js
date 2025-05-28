@@ -13,7 +13,7 @@ var GraphPublisher = {
         return new Promise((resolve, reject) => {
             var projectName = document.getElementById("project-name").value.trim();
             ProjectManager.projectName = projectName;
-            console.log("project to publish :", projectName)
+            console.log("project to publish :", projectName);
             ProjectManager.getProjectFiles(userAddress, projectName)
                 .then(function (projectFiles) {
                     if (projectFiles.length > 0) {
@@ -34,26 +34,45 @@ var GraphPublisher = {
                     }
                 })
                 .catch(function (err) {
-                    console.error(err)
+                    console.error(err);
                 });
         });
     },
     doesFileHasChange: function (existing, file) {
         return new Promise((resolve, reject) => {
             Blackhole.getGraph(existing.id).then(function (g) {
-                const md5ExistingGraph = MD5(btoa(convertAccentsToHtmlCodes(JSON.stringify(g.object))));
-                FileProcessor.extractGraph(existing.id, file.link, file.file.path, GraphPublisher.tasks.map(f => f.existing))
-                    .then(function (b64Graph) {
+                try {
+                    const md5ExistingGraph = MD5(
+                        btoa(convertAccentsToHtmlCodes(JSON.stringify(g.object)))
+                    );
+                    FileProcessor.extractGraph(
+                        existing.id,
+                        file.link,
+                        file.file.path,
+                        GraphPublisher.tasks.map((f) => f.existing)
+                    ).then(function (b64Graph) {
                         const md5CurrentGraph = MD5(b64Graph);
                         if (md5CurrentGraph !== md5ExistingGraph) {
-                            resolve({ hasChanged: true, b64Graph: b64Graph })
+                            resolve({ hasChanged: true, b64Graph: b64Graph });
                         } else {
-                            resolve({ hasChanged: false, b64Graph: b64Graph })
+                            resolve({ hasChanged: false, b64Graph: b64Graph });
                         }
                     });
-            });
 
-        })
+                } catch (e) {
+                    FileProcessor.extractGraph(
+                        existing.id,
+                        file.link,
+                        file.file.path,
+                        GraphPublisher.tasks.map((f) => f.existing)
+                    ).then(function (b64Graph) {
+
+                        resolve({ hasChanged: true, b64Graph: b64Graph });
+                    });
+
+                }
+            });
+        });
     },
     _update: function (
         containerId,
@@ -237,23 +256,21 @@ var GraphPublisher = {
         userAddress,
         file
     ) {
-        const $this = this
+        const $this = this;
         return new Promise(function (resolve, reject) {
             $this.doesFileHasChange(existing, file).then((response) => {
-                const hasChanged = response.hasChanged
-                const b64Graph = response.b64Graph
+                const hasChanged = response.hasChanged;
+                const b64Graph = response.b64Graph;
                 if (!hasChanged) {
-                    resolve("AlreadyExists")
-                    return
+                    resolve("AlreadyExists");
+                    return;
                 }
-                var payload =
-                    "urn:pi:graph:snap:" + existing.id + ":data:" + b64Graph;
+                var payload = "urn:pi:graph:snap:" + existing.id + ":data:" + b64Graph;
                 console.log("update the file " + fileName);
                 GraphPublisher._writeTx(payload, userAddress)
                     .then(resolve)
                     .catch(reject);
-            })
-
+            });
         });
     },
     _writeTx: function (payload, userAddress) {
