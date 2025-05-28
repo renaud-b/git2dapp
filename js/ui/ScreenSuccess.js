@@ -1,7 +1,8 @@
 var ScreenSuccess = {
-    'init': function () {
+    init: function () {
         this._bind();
-    }, '_bind': function () {
+    },
+    _bind: function () {
         var screen = document.getElementById("screen-success");
         if (!screen) return;
         var finishBtn = screen.querySelector("button");
@@ -11,5 +12,5 @@ var ScreenSuccess = {
                 UIManager.nextScreen("screen-welcome");
             });
         }
-    }
+    },
 };

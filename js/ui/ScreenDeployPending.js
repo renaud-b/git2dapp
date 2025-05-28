@@ -1,17 +1,23 @@
 var ScreenDeployPending = {
-    'init': function () {
-        document.getElementById("continue-button").style.display = "block";
-        this._bind();
-    }, '_bind': function () {
+    init: function (userAddress) {
+        const continueBtn = document.getElementById("continue-button")
+        this._bind(continueBtn);
+
+        continueBtn.style.display = "none";
+        GraphPublisher.publish(userAddress, "deployed-files-container", "import-done-message", "continue-button", false).then(() => {
+            continueBtn.style.display = "block";
+        });
+
+    },
+    _bind: function (continueBtn) {
         if (this.hasAlreadyBind === true) {
             return;
         }
         this.hasAlreadyBind = true;
-        var continueBtn = document.querySelector("#continue-button");
         if (continueBtn) {
             continueBtn.addEventListener("click", function () {
                 UIManager.nextScreen("screen-success");
             });
         }
-    }
+    },
 };

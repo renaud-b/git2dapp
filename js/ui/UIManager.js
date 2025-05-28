@@ -1,39 +1,75 @@
 const UIManager = {
-    'showFileList': (repo, owner, tree) => {
+    showFileList: (repo, owner, tree) => {
         return new Promise((resolve, reject) => {
             const list = document.getElementById("preview-container");
             list.innerHTML = "";
-            tree.filter((item) => (item.type === "blob")).filter((file) => ((file.path.endsWith(".html") || file.path.endsWith(".js")) || file.path.endsWith(".css"))).forEach((file) => {
-                const fileID = MD5(file.path);
-                const line = document.createElement("tr");
-                const fileNameCell = document.createElement("td");
-                line.appendChild(fileNameCell);
-                const link = document.createElement("a");
-                const fileLink = `https://raw.githubusercontent.com/${owner}/${repo}/main/${file.path}`;
-                link.href = fileLink;
-                link.textContent = file.path;
-                link.target = "_blank";
-                link.className = "block hover:text-blue-600 underline";
-                line.appendChild(link);
-                const operationCell = document.createElement("td");
-                operationCell.id = fileID;
-                line.appendChild(operationCell);
-                list.appendChild(line);
-                ProjectManager.files.push({'file': file, 'id': fileID, 'link': fileLink});
-            });
+            const header = document.createElement("tr");
+            header.innerHTML = `
+          <th class="text-left px-2 py-1">File</th>
+          <th class="text-left px-2 py-1">Action</th>
+          <th class="text-left px-2 py-1">Link</th>
+      `;
+            list.appendChild(header);
+
+            tree
+                .filter((item) => item.type === "blob")
+                .filter(
+                    (file) =>
+                        file.path.endsWith(".html") ||
+                        file.path.endsWith(".js") ||
+                        file.path.endsWith(".css")
+                )
+                .forEach((file) => {
+                    const fileID = MD5(file.path);
+                    const line = document.createElement("tr");
+
+                    // Nom du fichier
+                    const fileNameCell = document.createElement("td");
+                    fileNameCell.className = "px-2 py-1";
+                    fileNameCell.textContent = file.path;
+                    line.appendChild(fileNameCell);
+
+                    // Badge vide (rempli plus tard par GraphPublisher)
+                    const badgeCell = document.createElement("td");
+                    badgeCell.className = "px-2 py-1";
+                    badgeCell.id = fileID;
+                    line.appendChild(badgeCell);
+
+                    // Lien GitHub
+                    const linkCell = document.createElement("td");
+                    linkCell.className = "px-2 py-1";
+                    const link = document.createElement("a");
+                    const fileLink = `https://raw.githubusercontent.com/${owner}/${repo}/main/${file.path}`;
+                    link.href = fileLink;
+                    link.target = "_blank";
+                    link.textContent = "🔗 View";
+                    link.className = "text-blue-600 hover:underline";
+                    linkCell.appendChild(link);
+                    line.appendChild(linkCell);
+
+                    list.appendChild(line);
+
+                    ProjectManager.files.push({
+                        'file': file,
+                        'id': fileID,
+                        'link': fileLink
+                    });
+                });
             resolve();
         });
-    }, 'nextScreen': function (id) {
+    },
+    nextScreen: function (id) {
         document.querySelectorAll(".screen").forEach((screen) => {
             screen.classList.add("hidden");
         });
         document.getElementById(id).classList.remove("hidden");
         var s = StateManager.screens[id];
-        if (s && (typeof s.init === "function")) {
+        if (s && typeof s.init === "function") {
             s.init(StateManager.userAddress);
         }
-    }, 'deployProject': function () {
+    },
+    deployProject: function () {
         document.getElementById("project-name").value = ProjectManager.projectName;
         UIManager.nextScreen("screen-deploy");
-    }
+    },
 };

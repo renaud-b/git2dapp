@@ -1,5 +1,6 @@
 var StateManager = {
-    'userAddress': undefined, 'init': function () {
+    userAddress: undefined,
+    init: function () {
         var repoURL = localStorage.getItem("repoURL");
         if (repoURL) {
             document.getElementById("github-url").value = repoURL;
@@ -9,15 +10,15 @@ var StateManager = {
             "screen-preview": ScreenPreview,
             "screen-deploy": ScreenDeploying,
             "screen-success": ScreenSuccess,
-            "screen-deploy-pending": ScreenDeployPending
+            "screen-deploy-pending": ScreenDeployPending,
         };
-    }, 'setUserAddress': function (address) {
+    },
+    setUserAddress: function (address) {
         this.userAddress = address;
-    }, 'reset': function () {
+    },
+    reset: function () {
         ProjectManager.files = [];
         ProjectManager.projectName = undefined;
         ProjectManager.updates = [];
-        this.userAddress = undefined;
-        localStorage.removeItem("repoURL");
-    }
+    },
 };
