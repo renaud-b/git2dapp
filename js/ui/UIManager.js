@@ -42,7 +42,7 @@ const UIManager = {
                     const fileLink = `https://raw.githubusercontent.com/${owner}/${repo}/main/${file.path}`;
                     link.href = fileLink;
                     link.target = "_blank";
-                    link.textContent = "🔗 View";
+                    link.textContent = "View";
                     link.className = "text-blue-600 hover:underline";
                     linkCell.appendChild(link);
                     line.appendChild(linkCell);
