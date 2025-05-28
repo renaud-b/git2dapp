@@ -1,15 +1,18 @@
 var ScreenDeploying = {
-    init: function (userAddress) {
+    'init': function () {
+        console.log("init deploying screen");
+        this._bind();
+    }, '_bind': function () {
+        if (this.hasAlreadyBind === true) {
+            return;
+        }
+        this.hasAlreadyBind = true;
+        console.log("start to init screen deploying");
         var publishBtn = document.querySelector("#screen-deploy button");
         if (publishBtn) {
             publishBtn.addEventListener("click", function () {
-                GraphPublisher.publish(
-                    userAddress,
-                    "deployed-files-container",
-                    "import-done-message",
-                    "continue-button"
-                );
+                UIManager.nextScreen("screen-preview");
             });
         }
-    },
+    }
 };
